@@ -13,9 +13,8 @@ public class MemberApp {
         memberService.join(member);
 
         Member findMember = memberService.findMember(1L);
-        System.out.println("new member = " + member);
-        System.out.println("find Member = " + findMember);
+        System.out.println("new member = " + member.getName());
+        System.out.println("find Member = " + findMember.getName());  // soutv + enter - 출력할 변수 선택 가능
 
-        System.out.println("모야 ㅜㅜ");
     }
 }
