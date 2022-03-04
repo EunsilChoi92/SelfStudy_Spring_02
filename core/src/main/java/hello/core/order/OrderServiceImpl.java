@@ -8,13 +8,16 @@ import hello.core.member.MemoryMemberRepository;
 
 public class OrderServiceImpl implements OrderService {
 
+    /*
+    <수정 전>
     private final MemberRepository memberRepository = new MemoryMemberRepository();
     private final DiscountPolicy discountPolicy = new FixDiscountPilicy();
+    */
 
     /*
-    고정 할인 정책에서 정률 할인 정책으로 변경하려면 코드를
-    private final DiscountPolicy discountPolicy = new RateDiscountPilicy();
-    로 변경해야 함
+    고정 할인 정책에서 정률 할인 정책으로 변경하려면
+    private final DiscountPolicy discountPolicy = new FixDiscountPilicy(); 코드를
+    private final DiscountPolicy discountPolicy = new RateDiscountPilicy();로 변경해야 함
 
     <문제점>
     역할과 구현을 충실하게 분리했고, 다형성을 활용하고 인터페이스와 구현 객체를 분리했지만
@@ -32,6 +35,23 @@ public class OrderServiceImpl implements OrderService {
     <해결방안>
     누군가가 클라이언트인 OrderServiceImpl에 DiscountPolicy의 구현 객체를 대신 생성하고 주입해주어야 함
     */
+
+    // <수정후>
+    private final MemberRepository memberRepository;
+    private final DiscountPolicy discountPolicy;
+    
+    /*
+    - OrderServiceImpl은 더 이상 MemoryMemberRepository와 FixDiscountPilicy를 의존하지 않음
+        단지 MemberRepository, DiscountPolicy 인터페이스만을 의존함
+    - OrderServiceImpl의 입장에서 생성자를 통해 어떤 구현객체가 들어올지(주입될지)는 알 수 없음
+    - OrderServiceImpl의 생성자를 통해서 어떤 구현 객체를 주입할지는 오직 외부(AppConfig)에서 결정됨
+    - OrderServiceImpl은 이제부터 의존관계에 대한 고민은 외부에 맡기고 실행에만 집중하면 됨
+    */
+
+    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
+        this.memberRepository = memberRepository;
+        this.discountPolicy = discountPolicy;
+    }
 
     @Override
     public Order createOrder(Long memberId, String itemName, int itemPrice) {
