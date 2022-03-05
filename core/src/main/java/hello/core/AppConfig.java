@@ -9,10 +9,36 @@ import hello.core.member.MemberServiceImpl;
 import hello.core.member.MemoryMemberRepository;
 import hello.core.order.OrderService;
 import hello.core.order.OrderServiceImpl;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 // 애플리케이션의 전체 동작 방식을 구성(confing)하기 위해 구현 객체를 생성하고 연결하는 책임을 가지는 설정 클래스
+@Configuration  // 설정 정보
 public class AppConfig {
 
+    @Bean   // 스프링 컨테이너에 등록됨
+    public MemberService memberService() {
+        return new MemberServiceImpl(memberRepository()); // 생성자 주입
+    }
+
+    @Bean
+    public MemberRepository memberRepository() {
+        return new MemoryMemberRepository();
+    }
+
+    @Bean
+    public OrderService orderService() {
+        return new OrderServiceImpl(memberRepository(), discountPolicy());
+    }
+
+    @Bean
+    public DiscountPolicy discountPolicy() {
+//        return new FixDiscountPilicy();
+        return new RateDiscountPolicy();
+    }
+
+
+    // < 스프링으로 전환하기 전>
     /*
     1. AppConfig는 애플리케이션의 실제 동작에 필요한 구현 객체를 생성함
         - MemberServiceImpl, MemoryMemberRepository, OrderServiceImpl, FixDiscountPilicy
@@ -21,11 +47,12 @@ public class AppConfig {
         - OrderServiceImpl  -> MemoryMembeRepository, FixDiscountPolicy
     */
 
+    /*
     public MemberService memberService() {
         return new MemberServiceImpl(memberRepository()); // 생성자 주입
     }
 
-    private MemberRepository memberRepository() {
+    public MemberRepository memberRepository() {
         return new MemoryMemberRepository();
     }
 
@@ -38,10 +65,12 @@ public class AppConfig {
 //        return new FixDiscountPilicy();
         return new RateDiscountPolicy();
     }
+    */
     
     /*
     <리팩터링 후>
     - new MemoryMemberRepository();가 중복되었는데 중복을 제거함
     - 역할과 구현 클래스가 한 눈에 들어옴
     */
+
 }
