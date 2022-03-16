@@ -25,4 +25,10 @@ public class SingletoneTest {
         // memberService1 != memberService2
         Assertions.assertThat(memberService1).isNotSameAs(memberService2);
     }
+
+    @Test
+    @DisplayName("싱글톤 패턴을 적용한 객체 사용")
+    void singletonServiceTest() {
+
+    }
 }
