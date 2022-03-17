@@ -6,6 +6,8 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+
 public class SingletonTest {
 
     @Test
@@ -34,5 +36,7 @@ public class SingletonTest {
 
         System.out.println("singletonService1 = " + singletonService1);
         System.out.println("singletonService2 = " + singletonService2);
+
+        assertThat(singletonService1).isSameAs(singletonService2);
     }
 }
