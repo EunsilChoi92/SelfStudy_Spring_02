@@ -39,4 +39,10 @@ public class SingletonTest {
 
         assertThat(singletonService1).isSameAs(singletonService2);
     }
+
+    @Test
+    @DisplayName("스프링 컨테이너와 싱글톤")
+    void springContainer() {
+
+    }
 }
