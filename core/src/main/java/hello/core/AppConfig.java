@@ -48,6 +48,22 @@ public class AppConfig {
     */
 
     /*
+
+    <리팩터링 전>
+    public MemberService memberService() {
+        return new MemberServiceImpl(new MemoryMemberRepository()); // 생성자 주입
+    }
+
+    public OrderService orderService() {
+        return new OrderServiceImpl(new MemoryMemberRepository(), new FixDiscountPilicy());
+    }
+
+
+
+    <리팩터링 후>
+    - new MemoryMemberRepository();가 중복되었는데 중복을 제거함
+    - 역할과 구현 클래스가 한 눈에 들어옴
+
     public MemberService memberService() {
         return new MemberServiceImpl(memberRepository()); // 생성자 주입
     }
@@ -65,12 +81,6 @@ public class AppConfig {
 //        return new FixDiscountPilicy();
         return new RateDiscountPolicy();
     }
-    */
-    
-    /*
-    <리팩터링 후>
-    - new MemoryMemberRepository();가 중복되었는데 중복을 제거함
-    - 역할과 구현 클래스가 한 눈에 들어옴
     */
 
 }
